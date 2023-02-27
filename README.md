@@ -41,10 +41,18 @@ The JavaScript SDK will be used for deploying the smart contract code.
 
 ## Run the Code
 To test the code 
-- Fork the repository 
-- Do `npm install` this will install all required dependencies. (If you encounter any issue after doing this you can delete the node module folder and do `npm install` again)
-- run `npm start` to start the local server at localhost:3000
-
+- Clone this repository
+- Make account on Purestake API
+- Copy API key to env file
+- Install Algosigner web extension
+- create testnet account
+- Save credentials
+- Fund that ^ account on Algorand faucet
+- . venv/bin/activate
+- python3 contract/contract.py
+- deactivate
+- npm start
+- connect wallet, regiser, sign with AlgoSigner, set vote
 # Demo
 <img width="1440" alt="Screenshot 2022-03-16 at 03 14 24" src="https://user-images.githubusercontent.com/23031920/158504411-bb1eef56-0bdb-4f6c-881c-875294b2976a.png">
 

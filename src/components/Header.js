@@ -5,8 +5,8 @@ import logo from '../assets/images/AlgoVote.svg'
 import { CONSTANTS } from './Constants';
 import algosdk from'algosdk';
 import MessageAlert from './Alert';
-
 export default function Header (){
+  console.log(process.env.PURESTAKE_API_KEY, CONSTANTS)
   let client = new algosdk.Algodv2(CONSTANTS.algodToken, CONSTANTS.baseServer, CONSTANTS.port)
   const [alert, setAlert] = useState(false)
 
@@ -21,7 +21,7 @@ export default function Header (){
          ledger: 'TestNet'
        })
  console.log(userAccount.current[0]['address'])
-//  console.log(userAccount.current)
+  // console.log(userAccount.current)
   
  }
 

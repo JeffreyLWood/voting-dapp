@@ -1,4 +1,6 @@
-#!/Users/glory/projects/pyteal-voting-system/voting-dapp/venv/bin/python3
+#!/bin/sh
+'''exec' "/Users/jeffreywood/Web Projects/voting-dapp-pyteal-react/venv/bin/python3.10" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

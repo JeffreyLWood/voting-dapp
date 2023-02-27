@@ -10,32 +10,29 @@ const algosdk = require('algosdk');
   const globalInts = 24; //# 4 for setup + 20 for choices. Use a larger number for more choices.
   const globalBytes = 1;
 
-  // get accounts from mnemonic
-  const creatorMnemonic = "scan wheel heavy boy feature mind achieve crew comfort gauge valve crew assume doll pyramid insane toe tiger shed prevent color gown oil able inmate"
-  const userMnemonic = "hotel hole fox quit trend manage universe name sketch maximum toast normal develop favorite actual bean extra husband casual acquire seminar float moment ability nose"
-  const creatorAccount = algosdk.mnemonicToSecretKey(creatorMnemonic)
-  const userAccout =  algosdk.mnemonicToSecretKey(userMnemonic)
-  const creatorSecret = creatorAccount.sk
-  const creatorAddress = creatorAccount.addr
-  const sender = userAccout.addr
-
-  //Generate Account
-  const account = algosdk.generateAccount()
-  const secrekey = account.sk
-  const mnemonic = algosdk.secretKeyToMnemonic(secrekey)
-  console.log("mnemonic " + mnemonic )
-  console.log("address " + account.addr )
-
-  console.log()
-  // Connect your client
-  const algodToken = process.env.REACT_APP_API_KEY;
-  const baseServer = 'https://testnet-algorand.api.purestake.io/ps2/';
-  const port = "";
-  const headers ={"X-API-Key": process.env.REACT_APP_API_KEY}  
-    
-  console.log(process.env) 
-  let client = new algosdk.Algodv2(algodToken, baseServer, port, headers)
-
+    // get accounts from mnemonic
+    const creatorMnemonic = "scan wheel heavy boy feature mind achieve crew comfort gauge valve crew assume doll pyramid insane toe tiger shed prevent color gown oil able inmate"
+    const userMnemonic = "hotel hole fox quit trend manage universe name sketch maximum toast normal develop favorite actual bean extra husband casual acquire seminar float moment ability nose"
+    const creatorAccount = algosdk.mnemonicToSecretKey(creatorMnemonic)
+    const userAccount =  algosdk.mnemonicToSecretKey(userMnemonic)
+    const creatorSecret = creatorAccount.sk
+    const creatorAddress = creatorAccount.addr
+    const sender = userAccount.addr
+  
+    //Generate Account
+    const account = algosdk.generateAccount()
+    const secretKey = account.sk
+    const mnemonic = algosdk.secretKeyToMnemonic(secretKey)
+    console.log("mnemonic " + mnemonic )
+    console.log("address " + account.addr )
+  
+    console.log()
+    // Connect your client
+    const algodToken = {"X-API-Key": process.env.REACT_APP_PURESTAKE_API_KEY};
+    const baseServer = 'https://testnet-algorand.api.purestake.io/ps2/';
+    const port = "";
+    let client = new algosdk.Algodv2(algodToken, baseServer, port)
+  console.log('client', client)
   // Read Teal File
   let approvalProgram = ''
   let clear_state_program = ''
@@ -43,8 +40,6 @@ const algosdk = require('algosdk');
   try {
     approvalProgram = fs.readFileSync('../contract/vote_approval.teal', 'utf8')
     clear_state_program = fs.readFileSync('../contract/vote_clear_state.teal', 'utf8')
-    console.log(approvalProgram)
-    console.log(clear_state_program)
   } catch (err) {
     console.error(err)
   }
@@ -127,7 +122,7 @@ const Optin = async (sender, index) => {
     let txId = txn.txID().toString();
     // sign, send, await
     // Sign the transaction
-    let signedTxn = txn.signTxn(userAccout.sk);
+    let signedTxn = txn.signTxn(userAccount.sk);
     console.log("Signed transaction with txID: %s", txId);
 
     // Submit the transaction
@@ -169,7 +164,7 @@ const noop = async (sender, index)  => {
 
     let txId = txn.txID().toString();
     // Sign the transaction
-    let signedTxn = txn.signTxn(userAccout.sk);
+    let signedTxn = txn.signTxn(userAccount.sk);
     console.log("Signed transaction with txID: %s", txId);
 
     // Submit the transaction
@@ -199,7 +194,7 @@ const noop = async (sender, index)  => {
 // read local state of application from user account
 const readLocalState = async (index) => {
   try{
-    let accountInfoResponse = await client.accountInformation(userAccout.addr).do();
+    let accountInfoResponse = await client.accountInformation(userAccount.addr).do();
     let localState = accountInfoResponse['apps-local-state']
     return localState.map((item)=> {
       if(item['id'] == index){
@@ -276,7 +271,7 @@ const  closeOut = async (sender, index) => {
   // sign, send, await
     let txId = txn.txID().toString();
       // Sign the transaction
-      let signedTxn = txn.signTxn(userAccout.sk);
+      let signedTxn = txn.signTxn(userAccount.sk);
       console.log("Signed transaction with txID: %s", txId);
 
       // Submit the transaction
@@ -340,7 +335,7 @@ const clearState = async (sender, index) => {
   let txn = algosdk.makeApplicationClearStateTxn(sender, params, index);
   let txId = txn.txID().toString();
   // sign, send, await
-  let signedTxn = txn.signTxn(userAccout.sk);
+  let signedTxn = txn.signTxn(userAccount.sk);
     console.log("Signed transaction with txID: %s", txId);
 
     // Submit the transaction
@@ -402,7 +397,7 @@ console.log(appArgs.push(
 // console.log("Global state1 " + await readGlobalState(76484944))
 // waitForRound(regBegin)
 
-// Optin(userAccout.addr, 76645072)
+// Optin(userAccount.addr, 76645072)
 // waitForRound(voteBegin)
 
 // noop(sender, 76645072)
